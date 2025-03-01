@@ -19,6 +19,7 @@ public class WaitToCrush extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new InstantCommand(() -> m_crusher.close(), m_crusher),
+      new InstantCommand(() -> m_crusher.triggerNano(), m_crusher),
       new WaitCommand(2.0),
       new InstantCommand(() -> m_crusher.open(), m_crusher)
     );

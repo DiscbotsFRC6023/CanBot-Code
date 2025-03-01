@@ -7,14 +7,15 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Subsystems.*;
 import frc.robot.Commands.*;
 
 public class RobotContainer {
   final Drivetrain m_drive = new Drivetrain();
   final Crusher m_crusher = new Crusher();
-  WaitToCrush crushCommand = new WaitToCrush(m_crusher);
 
   final XboxController controller = new XboxController(0);
 
@@ -25,7 +26,12 @@ public class RobotContainer {
     m_crusher.setDefaultCommand(new WaitToCrush(m_crusher));
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    JoystickButton b = new JoystickButton(controller, XboxController.Button.kA.value);
+    b.toggleOnTrue(new InstantCommand(() -> m_crusher.close(), m_crusher));
+    b.toggleOnFalse(new InstantCommand(() -> m_crusher.open(), m_crusher));
+
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
