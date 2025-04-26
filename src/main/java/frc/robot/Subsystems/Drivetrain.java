@@ -6,6 +6,7 @@ package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
@@ -16,15 +17,15 @@ public class Drivetrain extends SubsystemBase {
   private final WPI_VictorSPX RD1 = new WPI_VictorSPX(2);
   private final WPI_VictorSPX RD2 = new WPI_VictorSPX(3);
 
-  private final DifferentialDrive m_drive = new DifferentialDrive(LD1, RD1);
+  @SuppressWarnings("removal")
+  private MotorControllerGroup left = new MotorControllerGroup(LD1, LD2);
+  @SuppressWarnings("removal")
+  private MotorControllerGroup right = new MotorControllerGroup(RD1, RD2);
+
+  private DifferentialDrive m_drive = new DifferentialDrive(left, right);
+  
 
   public Drivetrain() {
-    LD1.setInverted(true);
-    LD2.setInverted(true);
-    LD2.follow(LD1);
-    RD2.follow(RD1);
-    LD1.configOpenloopRamp(0.5);
-    RD1.configOpenloopRamp(0.5);
   }
 
 
